@@ -7,4 +7,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
  */
 @DynamoDBTable(tableName = "album_tracks")
 public class AlbumTrack {
+    private String asin;
+    private Integer trackNumber;
+    private String albumName;
+    private String songTitle;
 }
