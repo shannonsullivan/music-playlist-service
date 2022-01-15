@@ -1,5 +1,7 @@
 package com.amazon.ata.music.playlist.service.models;
 
+import com.amazon.ata.music.playlist.service.dynamodb.models.AlbumTrack;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -9,6 +11,7 @@ public class PlaylistModel {
     private String customerId;
     private int songCount;
     private List<String> tags;
+    //private List<AlbumTrack> songList;
 
     public PlaylistModel() {
 
@@ -20,6 +23,7 @@ public class PlaylistModel {
         this.customerId = builder.customerId;
         this.songCount = builder.songCount;
         this.tags = builder.tags;
+        //this.songList = builder.songList;
     }
 
     public String getId() {
@@ -62,6 +66,10 @@ public class PlaylistModel {
         this.tags = tags;
     }
 
+    //public List<AlbumTrack> getSongList() {return songList;}
+
+    //public void setSongList(List<AlbumTrack> songList) {this.songList = songList;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,7 +79,8 @@ public class PlaylistModel {
                 Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(customerId, that.customerId) &&
-                Objects.equals(tags, that.tags);
+                Objects.equals(tags, that.tags); //&&
+                //Objects.equals(songList, that.songList);
     }
 
     @Override
@@ -87,6 +96,7 @@ public class PlaylistModel {
                 ", customerId='" + customerId + '\'' +
                 ", songCount=" + songCount +
                 ", tags=" + tags +
+                //", songList=" + songList +
                 '}';
     }
 
@@ -98,6 +108,7 @@ public class PlaylistModel {
         private String customerId;
         private int songCount;
         private List<String> tags;
+        //private List<AlbumTrack> songList;
 
         public Builder withId(String idToUse) {
             this.id = idToUse;
@@ -123,6 +134,11 @@ public class PlaylistModel {
             this.tags = tagsToUse;
             return this;
         }
+
+//        public Builder withSongList(List<AlbumTrack> songListToUse) {
+//            this.songList = songList;
+//            return this;
+//        }
 
         public PlaylistModel build() {return new PlaylistModel(this);}
     }

@@ -13,9 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Implementation of the CreatePlaylistActivity for the MusicPlaylistService's CreatePlaylist API.
@@ -52,18 +50,24 @@ public class CreatePlaylistActivity implements RequestHandler<CreatePlaylistRequ
     public CreatePlaylistResult handleRequest(final CreatePlaylistRequest createPlaylistRequest, Context context) {
         log.info("Received CreatePlaylistRequest {}", createPlaylistRequest);
 
-        if (!MusicPlaylistServiceUtils.isValidString(createPlaylistRequest.getCustomerId()) || !MusicPlaylistServiceUtils.isValidString(createPlaylistRequest.getName())){
+        if (!MusicPlaylistServiceUtils.isValidString(createPlaylistRequest.getCustomerId()) ||
+                !MusicPlaylistServiceUtils.isValidString(createPlaylistRequest.getName())) {
             throw new InvalidAttributeValueException();
         }
 
-       List<String> newTags = new ArrayList<>();
-        Set<String> newTagSet = new HashSet<>(newTags);
+        List<String> newTags = new ArrayList<>();
+
+        if (createPlaylistRequest.getTags() != null) {
+            newTags = createPlaylistRequest.getTags();
+        }
 
         return CreatePlaylistResult.builder()
-                .withPlaylist(PlaylistModel.builder().withId(MusicPlaylistServiceUtils.generatePlaylistId()).build())
-                .withCustomerId(createPlaylistRequest.getCustomerId())
-                .withName(createPlaylistRequest.getName())
-                .withTags(newTagSet)
+                .withPlaylist(PlaylistModel.builder()
+                        .withId(MusicPlaylistServiceUtils.generatePlaylistId())
+                        .withName(createPlaylistRequest.getName())
+                        .withCustomerId(createPlaylistRequest.getCustomerId())
+                        .withTags(newTags)
+                        .build())
                 .build();
     }
 }

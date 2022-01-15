@@ -13,6 +13,7 @@ import java.util.Set;
 /**
  * Represents a record in the playlists table.
  */
+
 @DynamoDBTable(tableName = "playlists")
 public class Playlist {
     private String id;
@@ -22,16 +23,12 @@ public class Playlist {
     private Set<String> tags;
     private List<AlbumTrack> songList;
 
+    public Playlist() {}
+
     @DynamoDBHashKey(attributeName = "id")
-    public String getId() {
+    public String getId() { return id; }
 
-        return id;
-    }
-
-    public void setId(String id) {
-
-        this.id = id;
-    }
+    public void setId(String id) { this.id = id; }
 
     @DynamoDBAttribute(attributeName = "name")
     public String getName() {
