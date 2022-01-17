@@ -7,6 +7,7 @@ import com.amazon.ata.music.playlist.service.models.PlaylistModel;
 import com.amazon.ata.music.playlist.service.dynamodb.PlaylistDao;
 
 import com.amazon.ata.music.playlist.service.util.MusicPlaylistServiceUtils;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.apache.logging.log4j.LogManager;
@@ -23,13 +24,18 @@ import java.util.List;
 public class CreatePlaylistActivity implements RequestHandler<CreatePlaylistRequest, CreatePlaylistResult> {
     private final Logger log = LogManager.getLogger();
     private final PlaylistDao playlistDao;
+    DynamoDBMapper dbMapper;
 
+    public CreatePlaylistActivity() {
+        playlistDao =new PlaylistDao(dbMapper);
+    }
     /**
      * Instantiates a new CreatePlaylistActivity object.
      *
      * @param playlistDao PlaylistDao to access the playlists table.
      */
     public CreatePlaylistActivity(PlaylistDao playlistDao) {
+
         this.playlistDao = playlistDao;
     }
 
