@@ -2,6 +2,8 @@ package com.amazon.ata.music.playlist.service.dynamodb;
 
 import com.amazon.ata.music.playlist.service.dynamodb.models.AlbumTrack;
 
+import com.amazon.ata.music.playlist.service.exceptions.AlbumTrackNotFoundException;
+
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
 /**
@@ -17,5 +19,21 @@ public class AlbumTrackDao {
      */
     public AlbumTrackDao(DynamoDBMapper dynamoDbMapper) {
         this.dynamoDbMapper = dynamoDbMapper;
+    }
+
+    /**
+     * Returns the {@link AlbumTrack} corresponding to the specified asin.
+     *
+     * @param asin the AlbumTrack asin
+     * @return the stored AlbumTrack, or throw exception if none found.
+     */
+    public AlbumTrack getAlbumTrack(String asin) {
+        AlbumTrack albumTrack = this.dynamoDbMapper.load(AlbumTrack.class, asin);
+
+        if (albumTrack == null) {
+            throw new AlbumTrackNotFoundException("Could not find album track with asin " + asin);
+        }
+
+        return albumTrack;
     }
 }
