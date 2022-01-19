@@ -44,13 +44,13 @@ public class CreatePlaylistActivityTest {
         CreatePlaylistResult actual = createPlaylistActivity.handleRequest(request, null);
 
         // THEN
-        assertEquals(expectedName, actual.getPlaylist().getName(), "Name provided is invalid");
-        assertEquals(expectedCustomerId, actual.getPlaylist().getCustomerId(), "CustomerId provided is invalid");
-        assertEquals(expectedTags, actual.getPlaylist().getTags(), "List of tags is invalid");
+        assertEquals(expectedName, actual.getPlaylist().getName(), "Expected playlist name is not correct");
+        assertEquals(expectedCustomerId, actual.getPlaylist().getCustomerId(), "Expected customerId is not correct");
+        assertEquals(expectedTags, actual.getPlaylist().getTags(), "Expected list of tags is not correct");
     }
 
     @Test
-    public void handleRequest_inValidCustomerId_throwInvalidAttributeValueException() {
+    public void handleRequest_invalidCustomerId_throwInvalidAttributeValueException() {
         // GIVEN
         String expectedName = "expectedName";
         String expectedCustomerId = "customerId'sInvalid";
@@ -65,11 +65,11 @@ public class CreatePlaylistActivityTest {
         // WHEN & THEN
         assertThrows(InvalidAttributeValueException.class, () -> {
             createPlaylistActivity.handleRequest(request, null);
-        }, "When customer Id is invalid, throw PlaylistNotFoundException");
+        }, "When customer Id is invalid, throw InvalidAttributeValueException");
     }
 
     @Test
-    public void handleRequest_inValidName_throwInvalidAttributeValueException() {
+    public void handleRequest_invalidName_throwInvalidAttributeValueException() {
         // GIVEN
         String expectedName = "name'sInvalid";
         String expectedCustomerId = "expectedCustomerId";
@@ -84,7 +84,7 @@ public class CreatePlaylistActivityTest {
         // WHEN & THEN
         assertThrows(InvalidAttributeValueException.class, () -> {
             createPlaylistActivity.handleRequest(request, null);
-        }, "When playlist name is invalid, throw PlaylistNotFoundException");
+        }, "When playlist name is invalid, throw InvalidAttributeValueException");
     }
 
     @Test
@@ -103,6 +103,6 @@ public class CreatePlaylistActivityTest {
         // WHEN & THEN
         assertThrows(InvalidAttributeValueException.class, () -> {
             createPlaylistActivity.handleRequest(request, null);
-        }, "When playlist name or customer Id is null, throw PlaylistNotFoundException");
+        }, "When playlist name or customer Id is null, throw InvalidAttributeValueException");
     }
 }

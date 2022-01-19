@@ -61,33 +61,22 @@ interface RequestHandler {
     handleRequest()
 }
 AddSongToPlaylistActivity o--- AlbumTrackNotFoundException
-AddSongToPlaylistActivity o--- PlaylistNotFoundException
-CreatePlaylistActivity o--- PlaylistNotFoundException
-GetPlaylistActivity o--- PlaylistNotFoundException
-GetPlaylistSongsActivity  o--- PlaylistNotFoundException
-UpdatePlaylistActivity o--- PlaylistNotFoundException
 
-'PlaylistDao o-- InvalidAttributeValueException
-'PlaylistDao o-- InvalidAttributeChangeException
-'RuntimeException o-- InvalidAttributeValueException
-'RuntimeException o-- InvalidAttributeChangeException
-'class RuntimeException {
-'}
+PlaylistDao o- PlaylistNotFoundException
 
-CreatePlaylistActivity <|-- InvalidAttributeChangeException
-CreatePlaylistActivity <|-- InvalidAttributeValueException
-InvalidAttributeValueException <|-- InvalidAttributeChangeException
+CreatePlaylistActivity <|-- InvalidAttributeException
+InvalidAttributeException <|-- InvalidAttributeValueException
+InvalidAttributeException <|-- InvalidAttributeChangeException
 
-class AlbumTrackNotFoundException {
-
-}
-class PlaylistNotFoundException {
-
+class InvalidAttributeException {
 }
 class InvalidAttributeValueException {
-
 }
 class InvalidAttributeChangeException {
+}
+class AlbumTrackNotFoundException {
+}
+class PlaylistNotFoundException {
 }
 
 @enduml

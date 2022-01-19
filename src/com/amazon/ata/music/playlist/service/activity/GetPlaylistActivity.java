@@ -7,7 +7,6 @@ import com.amazon.ata.music.playlist.service.converters.ModelConverter;
 import com.amazon.ata.music.playlist.service.dynamodb.PlaylistDao;
 import com.amazon.ata.music.playlist.service.dynamodb.models.Playlist;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.apache.logging.log4j.LogManager;
@@ -15,17 +14,12 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Implementation of the GetPlaylistActivity for the MusicPlaylistService's GetPlaylist API.
- *
+ * <p>
  * This API allows the customer to get one of their saved playlists.
  */
 public class GetPlaylistActivity implements RequestHandler<GetPlaylistRequest, GetPlaylistResult> {
     private final Logger log = LogManager.getLogger();
     private final PlaylistDao playlistDao;
-    DynamoDBMapper dbMapper;
-
-    public GetPlaylistActivity() {
-        playlistDao =new PlaylistDao(dbMapper);
-    }
 
     /**
      * Instantiates a new GetPlaylistActivity object.
@@ -49,6 +43,7 @@ public class GetPlaylistActivity implements RequestHandler<GetPlaylistRequest, G
     @Override
     public GetPlaylistResult handleRequest(final GetPlaylistRequest getPlaylistRequest, Context context) {
         log.info("Received GetPlaylistRequest {}", getPlaylistRequest);
+
         String requestedId = getPlaylistRequest.getId();
         Playlist playlist = playlistDao.getPlaylist(requestedId);
         PlaylistModel playlistModel = new ModelConverter().toPlaylistModel(playlist);

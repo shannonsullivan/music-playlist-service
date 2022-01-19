@@ -39,7 +39,9 @@ public class PlaylistDao {
     /**
      * Saves item {@link Playlist} corresponding to the specified playlist.
      */
-    public void savePlaylist(Playlist playlist) {
+    public Playlist savePlaylist(Playlist playlist) {
+
         dynamoDbMapper.save(playlist);
+        return playlist;
     }
 }

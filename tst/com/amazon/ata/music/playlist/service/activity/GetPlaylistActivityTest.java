@@ -2,6 +2,7 @@ package com.amazon.ata.music.playlist.service.activity;
 
 import com.amazon.ata.music.playlist.service.dynamodb.PlaylistDao;
 import com.amazon.ata.music.playlist.service.dynamodb.models.Playlist;
+import com.amazon.ata.music.playlist.service.exceptions.PlaylistNotFoundException;
 import com.amazon.ata.music.playlist.service.models.requests.GetPlaylistRequest;
 import com.amazon.ata.music.playlist.service.models.results.GetPlaylistResult;
 import com.google.common.collect.Lists;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -59,5 +61,22 @@ public class GetPlaylistActivityTest {
         assertEquals(expectedCustomerId, result.getPlaylist().getCustomerId());
         assertEquals(expectedSongCount, result.getPlaylist().getSongCount());
         assertEquals(expectedTags, result.getPlaylist().getTags());
+    }
+
+    @Test
+    public void handleRequest_playlistDoesNotExist_throwsPlaylistNotFoundException() {
+        // GIVEN
+        String id = "invalidId";
+
+        GetPlaylistRequest request = GetPlaylistRequest.builder()
+                                    .withId(id)
+                                    .build();
+
+        when(playlistDao.getPlaylist(id)).thenThrow(new PlaylistNotFoundException());
+
+        // WHEN & THEN
+        assertThrows(PlaylistNotFoundException.class, () -> {
+            getPlaylistActivity.handleRequest(request, null);
+        }, "Expected to throw PlaylistNotFoundException, when playlist does not exist");
     }
 }
