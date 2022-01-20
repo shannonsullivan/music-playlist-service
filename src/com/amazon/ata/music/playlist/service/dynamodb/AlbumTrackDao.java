@@ -27,8 +27,8 @@ public class AlbumTrackDao {
      * @param asin the AlbumTrack asin
      * @return the stored AlbumTrack, or throw exception if none found.
      */
-    public AlbumTrack getAlbumTrack(String asin) {
-        AlbumTrack albumTrack = this.dynamoDbMapper.load(AlbumTrack.class, asin);
+    public AlbumTrack getAlbumTrack(String asin, int trackNumber) {
+        AlbumTrack albumTrack = this.dynamoDbMapper.load(AlbumTrack.class, asin, trackNumber);
 
         if (albumTrack == null) {
             throw new AlbumTrackNotFoundException("Could not find album track with asin " + asin);

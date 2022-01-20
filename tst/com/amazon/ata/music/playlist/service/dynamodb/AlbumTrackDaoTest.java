@@ -41,7 +41,7 @@ public class AlbumTrackDaoTest {
         when(dynamoDBMapper.load(AlbumTrack.class, asin)).thenReturn(existingAlbumTrack);
 
         // WHEN
-        AlbumTrack actual = albumTrackDao.getAlbumTrack(asin);
+        AlbumTrack actual = albumTrackDao.getAlbumTrack(asin, trackNumber);
 
         // THEN
         assertEquals(asin, actual.getAsin(), "Expected asin for the album track is not correct");
@@ -54,10 +54,11 @@ public class AlbumTrackDaoTest {
     public void getAlbumTrack_nullAlbumTrack_throwsAlbumTrackNotFoundException() {
         // GIVEN
         String asin = "00000";
+        int trackNumber = 0;
 
         // WHEN & THEN
         assertThrows(AlbumTrackNotFoundException.class, () -> {
-            albumTrackDao.getAlbumTrack(asin);
+            albumTrackDao.getAlbumTrack(asin, trackNumber);
         }, "When album track is null, throw AlbumTrackNotFoundException");
     }
 }
