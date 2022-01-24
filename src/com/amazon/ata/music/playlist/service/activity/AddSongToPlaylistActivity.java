@@ -16,6 +16,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -34,6 +35,7 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
      * @param playlistDao   PlaylistDao to access the playlist table.
      * @param albumTrackDao AlbumTrackDao to access the album_track table.
      */
+    @Inject
     public AddSongToPlaylistActivity(PlaylistDao playlistDao, AlbumTrackDao albumTrackDao) {
         this.playlistDao = playlistDao;
         this.albumTrackDao = albumTrackDao;
@@ -64,12 +66,13 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
                                                     addSongToPlaylistRequest.getTrackNumber());
 
         List<AlbumTrack> songList = playlist.getSongList();
-        songList.add(albumTrack);
+        if (addSongToPlaylistRequest.isQueueNext()) {
+            songList.add(0, albumTrack);
+        } else {
+            songList.add(albumTrack);
+        }
         playlist.setSongList(songList);
-        //Add song to front of playlist
-
-        int count = playlist.getSongCount();
-        playlist.setSongCount(count + 1);
+        playlist.setSongCount(songList.size());
 
         playlistDao.savePlaylist(playlist);
 

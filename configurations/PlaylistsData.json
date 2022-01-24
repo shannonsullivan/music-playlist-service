@@ -19,7 +19,7 @@
             "SS": ["1st tag"]
           },
           "songList": {
-            "SS": ["All Mirrors"]
+            "S": ["All Mirrors"]
           }
         }
       }
@@ -43,7 +43,7 @@
             "SS": ["1st tag", "2nd tag"]
           },
           "songList": {
-            "SS": ["Money", "All Mirrors"]
+            "S": ["Money", "All Mirrors"]
           }
         }
       }
@@ -67,7 +67,7 @@
             "SS": ["1st tag", "2nd tag", "3rd tag"]
           },
           "songList": {
-            "SS": ["whereImFrom", "wahoo", "All Mirrors"]
+            "S": ["whereImFrom", "wahoo", "All Mirrors"]
           }
         }
       }
