@@ -1,4 +1,4 @@
-## Unit 3 Project Design Document
+## Project Design Document
 
 ### Background
 
@@ -54,7 +54,7 @@ as well as adding to and retrieving a saved playlist’s list of songs.
 
 ### Architecture
 
-![Music Playlist Service Architecture](src/resources/documentation/MusicPlaylistServiceArchitecture.png)
+![Music Playlist Service Architecture](resources/documentation/MusicPlaylistServiceArchitecture.png)
 
 ### Music Playlist Service API Implementation Notes
 
@@ -209,9 +209,9 @@ copy of their table.
 
 ### Class Diagram
 
-![Music Playlist Service class diagram](src/resources/documentation/mastery-task2-music-playlist-CD.png)
+![Music Playlist Service class diagram](resources/documentation/mastery-task2-music-playlist-CD.png)
 
-[Link to class diagram PUML file](src/resources/mastery-task1-music-playlist-CD.puml)
+[Link to class diagram PUML file](resources/mastery-task1-music-playlist-CD.puml)
 
 ##### Get Playlist:
 
