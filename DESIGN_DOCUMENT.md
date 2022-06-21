@@ -1,4 +1,4 @@
-## Unit 3 Project Design Document
+## Unit 4 Project Design Document
 
 ### Background
 
@@ -209,7 +209,7 @@ copy of their table.
 
 ### Class Diagram
 
-![Music Playlist Service class diagram](src/resources/documentation/mastery-task2-music-playlist-CD.png)
+![Music Playlist Service class diagram](src/resources/mastery-task1-music-playlist-CD.png)
 
 [Link to class diagram PUML file](src/resources/mastery-task1-music-playlist-CD.puml)
 
@@ -342,13 +342,13 @@ Note: `id` is a path parameter and `order` is a query parameter. e.g.
 
 #### Get Playlist:
 
-![Get Playlist sequence diagram](src/resources/documentation/mastery-task1-get-playlist-SD.png)
+![Get Playlist sequence diagram](src/resources/mastery-task1-get-playlist-SD.png)
 
 [Link to get playlist sequence diagram PUML file](src/resources/mastery-task1-get-playlist-SD.puml)
 
 #### Create Playlist:
 
-![Create Playlist sequence diagram](src/resources/documentation/mastery-task1-create-playlist-SD.png)
+![Create Playlist sequence diagram](src/resources/mastery-task1-create-playlist-SD.png)
 
 [Link to create playlist sequence diagram PUML file](src/resources/mastery-task1-create-playlist-SD.puml)
 
