@@ -1,29 +1,31 @@
 package com.amazon.ata.music.playlist.service.lambda;
 
-import com.amazon.ata.music.playlist.service.dependency.App;
+import com.amazon.ata.music.playlist.service.dependency.DaggerServiceComponent;
 import com.amazon.ata.music.playlist.service.models.requests.UpdatePlaylistRequest;
 import com.amazon.ata.music.playlist.service.models.results.UpdatePlaylistResult;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+/**
+ * Entry point to Lambda that handles the request from the API Gateway
+ */
 public class UpdatePlaylistActivityProvider implements RequestHandler<UpdatePlaylistRequest, UpdatePlaylistResult> {
 
-    private static App app;
+    public UpdatePlaylistActivityProvider() {}
 
-    public UpdatePlaylistActivityProvider() {
-
-    }
-
+    /**
+     * Handles the incoming request by retrieving the playlist from the database.
+     *
+     * Instantiates a UpdatePlaylistActivity with a playlistDao and DynamoDBMapper
+     * from the ServiceComponent interface using the DaoModule class
+     *
+     * @param updatePlaylistRequest request object containing the playlist ID
+     * @return the generated DaggerServiceComponent updatePlaylistResult result object
+     */
     @Override
     public UpdatePlaylistResult handleRequest(final UpdatePlaylistRequest updatePlaylistRequest, Context context) {
-        return getApp().provideUpdatePlaylistActivity().handleRequest(updatePlaylistRequest, context);
-    }
-
-    private App getApp() {
-        if (app == null) {
-            app = new App();
-        }
-
-        return app;
+        return DaggerServiceComponent.create()
+                .provideUpdatePlaylistActivity()
+                .handleRequest(updatePlaylistRequest, context);
     }
 }

@@ -1,4 +1,4 @@
-## Unit 4 Project Design Document
+## Unit 3 Project Design Document
 
 ### Background
 
@@ -209,7 +209,7 @@ copy of their table.
 
 ### Class Diagram
 
-![Music Playlist Service class diagram](src/resources/mastery-task1-music-playlist-CD.png)
+![Music Playlist Service class diagram](src/resources/documentation/mastery-task2-music-playlist-CD.png)
 
 [Link to class diagram PUML file](src/resources/mastery-task1-music-playlist-CD.puml)
 
@@ -342,30 +342,30 @@ Note: `id` is a path parameter and `order` is a query parameter. e.g.
 
 #### Get Playlist:
 
-![Get Playlist sequence diagram](src/resources/mastery-task1-get-playlist-SD.png)
+![Get Playlist sequence diagram](resources/mastery-task1-get-playlist-SD.png)
 
-[Link to get playlist sequence diagram PUML file](src/resources/mastery-task1-get-playlist-SD.puml)
+[Link to get playlist sequence diagram PUML file](resources/mastery-task1-get-playlist-SD.puml)
 
 #### Create Playlist:
 
-![Create Playlist sequence diagram](src/resources/mastery-task1-create-playlist-SD.png)
+![Create Playlist sequence diagram](resources/mastery-task1-create-playlist-SD.png)
 
-[Link to create playlist sequence diagram PUML file](src/resources/mastery-task1-create-playlist-SD.puml)
+[Link to create playlist sequence diagram PUML file](resources/mastery-task1-create-playlist-SD.puml)
 
 #### Update Playlist:
 
-![Update Playlist Sequence Diagram](src/resources/documentation/UpdatePlaylistActivity.png)
+![Update Playlist Sequence Diagram](resources/documentation/UpdatePlaylistActivity.png)
 
-[source](src/resources/documentation/UpdatePlaylistActivity.puml)
+[Link to update playlist sequence diagram PUML file](resources/documentation/UpdatePlaylistActivity.puml)
 
 #### Add Song To Playlist:
 
-![Add Song To Playlist Sequence Diagram](src/resources/documentation/AddSongToPlaylistActivity.png)
+![Add Song To Playlist Sequence Diagram](resources/documentation/AddSongToPlaylistActivity.png)
 
-[source](src/resources/documentation/AddSongToPlaylistActivity.puml)
+[Link to add song to playlist sequence diagram PUML file](resources/documentation/AddSongToPlaylistActivity.puml)
 
 #### Get Playlist Songs:
 
-![Get Playlist Songs Sequence Diagram](src/resources/documentation/GetPlaylistSongsActivity.png)
+![Get Playlist Songs Sequence Diagram](resources/documentation/GetPlaylistSongsActivity.png)
 
-[source](src/resources/documentation/GetPlaylistSongsActivity.puml)
+[Link to get playlist songs sequence diagram PUML file](resources/documentation/GetPlaylistSongsActivity.puml)

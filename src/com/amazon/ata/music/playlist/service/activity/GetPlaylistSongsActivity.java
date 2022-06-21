@@ -1,5 +1,9 @@
 package com.amazon.ata.music.playlist.service.activity;
 
+import com.amazon.ata.music.playlist.service.converters.ModelConverter;
+import com.amazon.ata.music.playlist.service.dynamodb.models.Playlist;
+import com.amazon.ata.music.playlist.service.exceptions.PlaylistNotFoundException;
+import com.amazon.ata.music.playlist.service.models.SongOrder;
 import com.amazon.ata.music.playlist.service.models.requests.GetPlaylistSongsRequest;
 import com.amazon.ata.music.playlist.service.models.results.GetPlaylistSongsResult;
 import com.amazon.ata.music.playlist.service.models.SongModel;
@@ -10,11 +14,13 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Implementation of the GetPlaylistSongsActivity for the MusicPlaylistService's GetPlaylistSongs API.
- *
+ * <p>
  * This API allows the customer to get the list of songs of a saved playlist.
  */
 public class GetPlaylistSongsActivity implements RequestHandler<GetPlaylistSongsRequest, GetPlaylistSongsResult> {
@@ -26,6 +32,7 @@ public class GetPlaylistSongsActivity implements RequestHandler<GetPlaylistSongs
      *
      * @param playlistDao PlaylistDao to access the playlist table.
      */
+    @Inject
     public GetPlaylistSongsActivity(PlaylistDao playlistDao) {
         this.playlistDao = playlistDao;
     }
@@ -41,11 +48,24 @@ public class GetPlaylistSongsActivity implements RequestHandler<GetPlaylistSongs
      * @return getPlaylistSongsResult result object containing the playlist's list of API defined {@link SongModel}s
      */
     @Override
-    public GetPlaylistSongsResult handleRequest(final GetPlaylistSongsRequest getPlaylistSongsRequest, Context context) {
+    public GetPlaylistSongsResult handleRequest(final GetPlaylistSongsRequest getPlaylistSongsRequest, Context context)
+            throws PlaylistNotFoundException {
         log.info("Received GetPlaylistSongsRequest {}", getPlaylistSongsRequest);
 
+        Playlist playlist = playlistDao.getPlaylist(getPlaylistSongsRequest.getId());
+
+        if (playlist.getSongList() != null && getPlaylistSongsRequest.getOrder() != null) {
+            if (getPlaylistSongsRequest.getOrder().equals(SongOrder.SHUFFLED)) {
+                Collections.shuffle(playlist.getSongList());
+            } else if (getPlaylistSongsRequest.getOrder().equals(SongOrder.REVERSED)) {
+                Collections.reverse(playlist.getSongList());
+            }
+        }
+
+        List<SongModel> songModelList = new ModelConverter().toSongModelList(playlist.getSongList());
+
         return GetPlaylistSongsResult.builder()
-                .withSongList(Collections.singletonList(new SongModel()))
+                .withSongList(songModelList)
                 .build();
     }
 }

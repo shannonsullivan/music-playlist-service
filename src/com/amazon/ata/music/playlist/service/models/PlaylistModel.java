@@ -1,5 +1,7 @@
 package com.amazon.ata.music.playlist.service.models;
 
+import com.amazon.ata.music.playlist.service.dynamodb.models.AlbumTrack;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -61,6 +63,7 @@ public class PlaylistModel {
     public void setTags(List<String> tags) {
         this.tags = tags;
     }
+
 
     @Override
     public boolean equals(Object o) {

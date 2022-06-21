@@ -12,9 +12,11 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Inject;
+
 /**
  * Implementation of the GetPlaylistActivity for the MusicPlaylistService's GetPlaylist API.
- *
+ * <p>
  * This API allows the customer to get one of their saved playlists.
  */
 public class GetPlaylistActivity implements RequestHandler<GetPlaylistRequest, GetPlaylistResult> {
@@ -26,6 +28,7 @@ public class GetPlaylistActivity implements RequestHandler<GetPlaylistRequest, G
      *
      * @param playlistDao PlaylistDao to access the playlist table.
      */
+    @Inject
     public GetPlaylistActivity(PlaylistDao playlistDao) {
         this.playlistDao = playlistDao;
     }
@@ -43,6 +46,7 @@ public class GetPlaylistActivity implements RequestHandler<GetPlaylistRequest, G
     @Override
     public GetPlaylistResult handleRequest(final GetPlaylistRequest getPlaylistRequest, Context context) {
         log.info("Received GetPlaylistRequest {}", getPlaylistRequest);
+
         String requestedId = getPlaylistRequest.getId();
         Playlist playlist = playlistDao.getPlaylist(requestedId);
         PlaylistModel playlistModel = new ModelConverter().toPlaylistModel(playlist);

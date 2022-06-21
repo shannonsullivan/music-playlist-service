@@ -1,5 +1,10 @@
 package com.amazon.ata.music.playlist.service.activity;
 
+import com.amazon.ata.music.playlist.service.converters.ModelConverter;
+import com.amazon.ata.music.playlist.service.dynamodb.models.AlbumTrack;
+import com.amazon.ata.music.playlist.service.dynamodb.models.Playlist;
+import com.amazon.ata.music.playlist.service.exceptions.AlbumTrackNotFoundException;
+import com.amazon.ata.music.playlist.service.exceptions.PlaylistNotFoundException;
 import com.amazon.ata.music.playlist.service.models.requests.AddSongToPlaylistRequest;
 import com.amazon.ata.music.playlist.service.models.results.AddSongToPlaylistResult;
 import com.amazon.ata.music.playlist.service.models.SongModel;
@@ -11,11 +16,12 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collections;
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Implementation of the AddSongToPlaylistActivity for the MusicPlaylistService's AddSongToPlaylist API.
- *
+ * <p>
  * This API allows the customer to add a song to their existing playlist.
  */
 public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlaylistRequest, AddSongToPlaylistResult> {
@@ -26,9 +32,10 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
     /**
      * Instantiates a new AddSongToPlaylistActivity object.
      *
-     * @param playlistDao PlaylistDao to access the playlist table.
+     * @param playlistDao   PlaylistDao to access the playlist table.
      * @param albumTrackDao AlbumTrackDao to access the album_track table.
      */
+    @Inject
     public AddSongToPlaylistActivity(PlaylistDao playlistDao, AlbumTrackDao albumTrackDao) {
         this.playlistDao = playlistDao;
         this.albumTrackDao = albumTrackDao;
@@ -47,14 +54,32 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
      * @param addSongToPlaylistRequest request object containing the playlist ID and an asin and track number
      *                                 to retrieve the song data
      * @return addSongToPlaylistResult result object containing the playlist's updated list of
-     *                                 API defined {@link SongModel}s
+     * API defined {@link SongModel}s
      */
     @Override
-    public AddSongToPlaylistResult handleRequest(final AddSongToPlaylistRequest addSongToPlaylistRequest, Context context) {
+    public AddSongToPlaylistResult handleRequest(final AddSongToPlaylistRequest addSongToPlaylistRequest, Context context)
+            throws PlaylistNotFoundException, AlbumTrackNotFoundException {
         log.info("Received AddSongToPlaylistRequest {} ", addSongToPlaylistRequest);
 
+        Playlist playlist = playlistDao.getPlaylist(addSongToPlaylistRequest.getId());
+        AlbumTrack albumTrack = albumTrackDao.getAlbumTrack(addSongToPlaylistRequest.getAsin(),
+                                                    addSongToPlaylistRequest.getTrackNumber());
+
+        List<AlbumTrack> songList = playlist.getSongList();
+        if (addSongToPlaylistRequest.isQueueNext()) {
+            songList.add(0, albumTrack);
+        } else {
+            songList.add(albumTrack);
+        }
+        playlist.setSongList(songList);
+        playlist.setSongCount(songList.size());
+
+        playlistDao.savePlaylist(playlist);
+
+        List<SongModel> songModelList = new ModelConverter().toSongModelList(playlist.getSongList());
+
         return AddSongToPlaylistResult.builder()
-                .withSongList(Collections.singletonList(new SongModel()))
+                .withSongList(songModelList)
                 .build();
     }
 }
